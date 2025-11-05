@@ -10,8 +10,8 @@ const Header = () => {
   return (
     <>
           <nav className="navbar">
-        <Link to="/">Dashboard</Link>
-        <Link to="/investments">Investments</Link> 
+        <Link className="link-one" to="/">Dashboard</Link>
+        <Link className="link-two" to="/investments">Investments</Link> 
       </nav>
     <header className="header">
       <div className="header-content">

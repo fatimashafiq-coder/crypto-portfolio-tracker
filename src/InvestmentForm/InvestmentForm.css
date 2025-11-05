@@ -1,4 +1,4 @@
-.investment-form-container{
+.investment-form-container {
     padding: 30px;
 }
 .form-title {
@@ -17,6 +17,7 @@
 .form-group {
     display: flex;
     flex-direction: column;
+    
 }
 
 .input-field {
