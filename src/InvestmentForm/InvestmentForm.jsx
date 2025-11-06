@@ -14,10 +14,10 @@ function InvestmentForm({ coinOptions }) {
             name="coin"
             component={({ field, form }) => (
               <Select
+               placeholder="Type to search..."
                 options={coinOptions}
                 value={coinOptions.find((option) => option.value === field.value)} 
                 onChange={(option) => form.setFieldValue("coin", option.value)} 
-                placeholder="Type to search..."
               />
             )}
           />

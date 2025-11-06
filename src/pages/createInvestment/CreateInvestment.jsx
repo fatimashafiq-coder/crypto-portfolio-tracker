@@ -1,22 +1,22 @@
-import React from "react";
 import { Formik, Form } from "formik";
-import InvestmentForm from "../../InvestmentForm/InvestmentForm";
+import InvestmentForm from "../../investmentForm/InvestmentForm";
 import ThresholdForm from "../../ThresholdForm/ThresholdForm";
 
-function CreateInvestment() {
-const initialValues = {
-  coin: "",
-  quantity: "",
-  buyPrice: "",
-  date: "",
-  time: "",
-  thresholdType: "noThreshold",
-  profitThreshold: "",
-  lossThreshold: "",
-};
+function CreateInvestment({ onAddInvestment }) {
+  const initialValues = {
+    coin: "",
+    quantity: "",
+    buyPrice: "",
+    date: "",
+    time: "",
+    thresholdType: "noThreshold",
+    profitThreshold: "",
+    lossThreshold: "",
+  };
 
-  const handleSubmit = (values) => {
-    console.log("Form Data:", values);
+  const handleSubmit = (values, { resetForm }) => {
+    onAddInvestment(values);
+    resetForm();
   };
 
  const coinOptions = [
@@ -50,16 +50,16 @@ const initialValues = {
 
   return (
    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-  {({ values, handleChange }) => (
-    <Form>
-      <InvestmentForm coinOptions={coinOptions} />
-      <ThresholdForm values={values} handleChange={handleChange} />
-      <button type="submit" className="submit-btn">
-        Add Investment
-      </button>
-    </Form>
-  )}
-</Formik>
+      {({ values, handleChange }) => (
+        <Form>
+          <InvestmentForm coinOptions={coinOptions} />
+          <ThresholdForm values={values} handleChange={handleChange} />
+          <button type="submit" className="submit-btn">
+            Add Investment
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 }
 
