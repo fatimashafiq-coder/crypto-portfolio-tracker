@@ -29,7 +29,8 @@ function App() {
   };
 
   return (
-    <Router>
+   <div className='main-container'>
+     <Router>
       <Header />
       <Routes>
         <Route path='/' element={<Dashboard investments={investments} />} />
@@ -59,6 +60,7 @@ function App() {
         />
       </Routes>
     </Router>
+   </div>
   )
 }
 export default App;
