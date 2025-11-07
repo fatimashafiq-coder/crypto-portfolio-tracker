@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "./InvestmentCard.css";
 
@@ -22,9 +22,8 @@ function InvestmentCard({ investment, onDelete }) {
     async function fetchPrice() {
       try {
         const symbol = coin.toUpperCase();
-        const response = await fetch(
-          `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
-        );
+        const apiBase = process.env.REACT_APP_BINANCE_API;
+        const response = await fetch(`${apiBase}?symbol=${symbol}USDT`);
         const data = await response.json();
         setCurrentPrice(parseFloat(data.price));
       } catch (error) {
@@ -37,7 +36,9 @@ function InvestmentCard({ investment, onDelete }) {
   const invested = quantity * buyPrice;
   const currentValue = currentPrice ? quantity * currentPrice : 0;
   const profitLoss = currentValue - invested;
-  const profitLossPercent = invested ? ((profitLoss / invested) * 100).toFixed(2) : 0;
+  const profitLossPercent = invested
+    ? ((profitLoss / invested) * 100).toFixed(2)
+    : 0;
   const isProfit = profitLoss >= 0;
 
   const handleEdit = () => {

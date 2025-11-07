@@ -1,4 +1,3 @@
-import React from "react";
 import InvestmentCard from "../../components/InvestmentCard";
 import './Investments.css';
 function Investments({ investments, onDelete }) {

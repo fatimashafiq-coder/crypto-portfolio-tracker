@@ -50,3 +50,6 @@
 .cancel-btn:hover {
   background-color: #c2c2c2;
 }
+.investment-not-found{
+  padding: "20px";
+}

@@ -21,7 +21,7 @@ function App() {
     const updatedInvestments = investments.filter((inv) => inv.id !== id);
     setInvestments(updatedInvestments);
   };
-    const handleUpdateInvestment = (updatedInvestment) => {
+  const handleUpdateInvestment = (updatedInvestment) => {
     const updatedList = investments.map((inv) =>
       inv.id === updatedInvestment.id ? updatedInvestment : inv
     );
@@ -32,8 +32,8 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/' element={<Dashboard investments={investments} />} />
+        <Route path='/dashboard' element={<Dashboard investments={investments} />} />
         <Route
           path='/investments'
           element={

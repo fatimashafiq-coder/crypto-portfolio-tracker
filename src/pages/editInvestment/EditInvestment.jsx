@@ -11,7 +11,7 @@ function EditInvestment({ investments, onUpdateInvestment }) {
   const investmentToEdit = investments.find((inv) => inv.id === id);
 
   if (!investmentToEdit) {
-    return <div style={{ padding: "20px" }}>Investment not found.</div>;
+    return <div className="investment-not-found">Investment not found.</div>;
   }
 
   const handleSubmit = (values) => {
