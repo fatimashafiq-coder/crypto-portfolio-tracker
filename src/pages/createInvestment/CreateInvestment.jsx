@@ -1,8 +1,10 @@
 import { Formik, Form } from "formik";
 import InvestmentForm from "../../investmentForm/InvestmentForm";
 import ThresholdForm from "../../ThresholdForm/ThresholdForm";
+import { useNavigate } from "react-router-dom";
 
 function CreateInvestment({ onAddInvestment }) {
+    const navigate = useNavigate();
   const initialValues = {
     coin: "",
     quantity: "",
@@ -22,7 +24,12 @@ function CreateInvestment({ onAddInvestment }) {
 
     onAddInvestment(values); 
     resetForm();
+    
+     setTimeout(() => {
+    navigate("/investments");
+  }, 100);
   };
+  
 
   const coinOptions = [
     { value: "BTC", label: "BTC - Bitcoin" },

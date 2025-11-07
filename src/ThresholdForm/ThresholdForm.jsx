@@ -1,5 +1,4 @@
 import "./ThresholdForm.css";
-
 const ThresholdForm = ({ values, handleChange }) => {
   return (
     <div className="threshold-container">
