@@ -26,10 +26,6 @@ function CreateInvestment({ onAddInvestment }) {
     onAddInvestment(values); 
     resetForm();
       navigate("/investments");
-    
-  //    setTimeout(() => {
-  //   navigate("/investments");
-  // }, 100);
   };
   return (
  <Formik initialValues={initialValues} onSubmit={handleSubmit}>

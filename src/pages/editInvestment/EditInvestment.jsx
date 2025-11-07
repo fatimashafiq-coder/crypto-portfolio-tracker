@@ -31,12 +31,12 @@ function EditInvestment({ investments, onUpdateInvestment }) {
             <ThresholdForm values={values} handleChange={handleChange} />
 
             <div className="edit-buttons">
-              <button type="submit" className="btn-save">
+              <button type="submit" className="save-button">
                 Save Changes
               </button>
               <button
                 type="button"
-                className="btn-cancel"
+                className="cancel-button"
                 onClick={() => navigate(-1)}
               >
                 Cancel
