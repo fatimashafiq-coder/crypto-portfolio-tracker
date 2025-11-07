@@ -1,5 +1,7 @@
 import "./ThresholdForm.css";
 const ThresholdForm = ({ values, handleChange }) => {
+  const isDisabled = values.thresholdType === "noThreshold";
+
   return (
     <div className="threshold-container">
       <h2 className="threshold-title">Set Sell Threshold (Optional)</h2>
@@ -46,6 +48,7 @@ const ThresholdForm = ({ values, handleChange }) => {
             placeholder="10"
             value={values.profitThreshold}
             onChange={handleChange}
+              disabled={isDisabled}
           />
         </div>
 
@@ -57,6 +60,7 @@ const ThresholdForm = ({ values, handleChange }) => {
             placeholder="-5"
             value={values.lossThreshold}
             onChange={handleChange}
+              disabled={isDisabled}
           />
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import InvestmentCard from "../../components/InvestmentCard";
 import './Investments.css';
-import Dashboard from "../dashboard/Dashboard";
 function Investments({ investments, onDelete }) {
   return (
     <>
