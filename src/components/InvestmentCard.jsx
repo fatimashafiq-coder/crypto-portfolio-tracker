@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import "./InvestmentCard.css";
 
 function InvestmentCard({ investment, onDelete }) {
   const {
+    id,
     coin,
     quantity,
     buyPrice,
@@ -14,6 +16,7 @@ function InvestmentCard({ investment, onDelete }) {
   } = investment;
 
   const [currentPrice, setCurrentPrice] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPrice() {
@@ -37,12 +40,16 @@ function InvestmentCard({ investment, onDelete }) {
   const profitLossPercent = invested ? ((profitLoss / invested) * 100).toFixed(2) : 0;
   const isProfit = profitLoss >= 0;
 
+  const handleEdit = () => {
+    navigate(`/investments/${id}/edit`);
+  };
+
   return (
     <div className="investment-card">
       <div className="card-top">
         <h3 className="coin-name">{coin}</h3>
         <div className="action-buttons">
-          <button className="btn-edit">✏️</button>
+          <button className="btn-edit" onClick={handleEdit}>✏️</button>
           <button className="btn-delete" onClick={onDelete}>🗑️</button> 
         </div>
       </div>
@@ -61,7 +68,9 @@ function InvestmentCard({ investment, onDelete }) {
         <span className="label">INVESTED</span>
       </div>
       <div className="card-row values">
-        <span className="value">{currentPrice ? `$${currentPrice.toFixed(4)}` : "Loading..."}</span>
+        <span className="value">
+          {currentPrice ? `$${currentPrice.toFixed(4)}` : "Loading..."}
+        </span>
         <span className="value">${invested.toFixed(2)}</span>
       </div>
 
@@ -72,13 +81,17 @@ function InvestmentCard({ investment, onDelete }) {
       <div className="card-row values">
         <span className="value">${currentValue.toFixed(2)}</span>
         <span className="threshold-badge">
-          {thresholdType !== "noThreshold" ? `+${profitThreshold}% / ${lossThreshold}%` : "None"}
+          {thresholdType !== "noThreshold"
+            ? `+${profitThreshold}% / ${lossThreshold}%`
+            : "None"}
         </span>
       </div>
 
       <div className="purchase-date-section">
         <span className="label">PURCHASE DATE</span>
-        <span className="date-text">{date}, {time}</span>
+        <span className="date-text">
+          {date}, {time}
+        </span>
       </div>
 
       <div className="card-row total-row">
@@ -90,7 +103,8 @@ function InvestmentCard({ investment, onDelete }) {
           ${profitLoss.toFixed(2)}
         </span>
         <span className={isProfit ? "profit" : "loss"}>
-          {isProfit ? '+' : ''}{profitLossPercent}%
+          {isProfit ? "+" : ""}
+          {profitLossPercent}%
         </span>
       </div>
     </div>

@@ -21,6 +21,12 @@ function App() {
     const updatedInvestments = investments.filter((inv) => inv.id !== id);
     setInvestments(updatedInvestments);
   };
+    const handleUpdateInvestment = (updatedInvestment) => {
+    const updatedList = investments.map((inv) =>
+      inv.id === updatedInvestment.id ? updatedInvestment : inv
+    );
+    setInvestments(updatedList);
+  };
 
   return (
     <Router>
@@ -28,20 +34,28 @@ function App() {
       <Routes>
         <Route path='/' element={<Dashboard />} />
         <Route path='/dashboard' element={<Dashboard />} />
-        <Route 
-          path='/investments' 
+        <Route
+          path='/investments'
           element={
-            <Investments 
-              investments={investments} 
-              onDelete={handleDeleteInvestment} 
+            <Investments
+              investments={investments}
+              onDelete={handleDeleteInvestment}
             />
-          } 
+          }
         />
         <Route path='/investments/:id' element={<Investment />} />
-        <Route path='investments/:id/edit' element={<EditInvestment />} />
-        <Route 
-          path='/investment/create' 
-          element={<CreateInvestment onAddInvestment={handleAddInvestment} />} 
+        <Route
+          path="investments/:id/edit"
+          element={
+            <EditInvestment
+              investments={investments}
+              onUpdateInvestment={handleUpdateInvestment}
+            />
+          }
+        />
+        <Route
+          path='/investment/create'
+          element={<CreateInvestment onAddInvestment={handleAddInvestment} />}
         />
       </Routes>
     </Router>
