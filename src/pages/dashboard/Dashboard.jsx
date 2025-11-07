@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CreateInvestment from "../createInvestment/CreateInvestment";
 import PortfolioCards from "./PortfolioCards";
 import Calculator from "./Calculator";
@@ -8,6 +9,7 @@ import ExportCV from "./ExportCv";
 import "./Dashboard.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [showCreate, setShowCreate] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
@@ -19,7 +21,7 @@ const Dashboard = () => {
       <div className="portfolio-header">
         <h2>Your Portfolio</h2>
         <div className="actions">
-          <button className="button" onClick={() => setShowCreate(true)}>
+           <button className="button" onClick={() => navigate("/investment/create")}>
             Create
           </button>
           <button
