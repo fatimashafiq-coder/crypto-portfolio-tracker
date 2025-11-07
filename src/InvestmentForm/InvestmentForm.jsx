@@ -1,8 +1,36 @@
-import { Field } from "formik";
+import { useEffect } from "react";
+import { Field, useFormikContext } from "formik";
 import Select from "react-select";
 import "./InvestmentForm.css";
+const FormField = ({ label, name, type = "text", placeholder }) => (
+  <div className="form-group">
+    <label>{label}</label>
+    <Field
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      className="input-field"
+    />
+  </div>
+);
 
 function InvestmentForm({ coinOptions }) {
+  const { setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      return {
+        date: now.toISOString().split("T")[0],
+        time: now.toTimeString().slice(0, 5),
+      };
+    };
+
+    const { date, time } = getCurrentDateTime();
+    setFieldValue("date", date);
+    setFieldValue("time", time);
+  }, [setFieldValue]);
+
   return (
     <div className="investment-form-container">
       <h2 className="form-title">Add New Investment</h2>
@@ -14,44 +42,19 @@ function InvestmentForm({ coinOptions }) {
             name="coin"
             component={({ field, form }) => (
               <Select
-               placeholder="Type to search..."
+                placeholder="Type to search..."
                 options={coinOptions}
-                value={coinOptions.find((option) => option.value === field.value)} 
-                onChange={(option) => form.setFieldValue("coin", option.value)} 
+                value={coinOptions.find((opt) => opt.value === field.value)}
+                onChange={(opt) => form.setFieldValue("coin", opt.value)}
               />
             )}
           />
         </div>
 
-        <div className="form-group">
-          <label>Quantity</label>
-          <Field
-            type="number"
-            name="quantity"
-            placeholder="0.5"
-            className="input-field"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Buy Price (USDT)</label>
-          <Field
-            type="number"
-            name="buyPrice"
-            placeholder="45000"
-            className="input-field"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Purchase Date</label>
-          <Field type="date" name="date" className="input-field" />
-        </div>
-
-        <div className="form-group">
-          <label>Purchase Time</label>
-          <Field type="time" name="time" className="input-field" />
-        </div>
+        <FormField label="Quantity" name="quantity" type="number" placeholder="0.5" />
+        <FormField label="Buy Price (USDT)" name="buyPrice" type="number" placeholder="45000" />
+        <FormField label="Purchase Date" name="date" type="date" />
+        <FormField label="Purchase Time" name="time" type="time" />
       </div>
     </div>
   );
