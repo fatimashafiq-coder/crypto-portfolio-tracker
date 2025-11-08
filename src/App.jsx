@@ -46,7 +46,7 @@ function App() {
         />
         <Route path='/investments/:id' element={<Investment />} />
         <Route
-          path="investments/:id/edit"
+          path="/investments/:id/edit"
           element={
             <EditInvestment
               investments={investments}

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import InvestmentForm from "../../investmentForm/InvestmentForm";
-import ThresholdForm from "../../ThresholdForm/ThresholdForm";
+import InvestmentForm from "../createInvestment/InvestmentForm";
+import ThresholdForm from "../createInvestment/ThresholdForm";
 import { coinOptions } from "../../constants/coinOptions";
 
 function EditInvestment({ investments, onUpdateInvestment }) {

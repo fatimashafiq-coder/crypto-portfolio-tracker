@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
-import InvestmentForm from "../../investmentForm/InvestmentForm";
-import ThresholdForm from "../../ThresholdForm/ThresholdForm";
+import InvestmentForm from "./InvestmentForm";
+import ThresholdForm from "./ThresholdForm";
 import { coinOptions } from "../../constants/coinOptions";
 import { useNavigate } from "react-router-dom";
 

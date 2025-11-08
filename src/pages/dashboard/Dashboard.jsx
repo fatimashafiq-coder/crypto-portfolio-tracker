@@ -12,9 +12,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [showCreate, setShowCreate] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
-  const [portfolio, setPortfolio] = useState([]);
-
-  const [investments] = UseLocalStorage("investments", []);
+  const [investments, setInvestments] = UseLocalStorage("investments", []);
 
   return (
     <>
@@ -30,8 +28,8 @@ const Dashboard = () => {
           >
             Calculator
           </button>
-          <ImportCV portfolio={portfolio} setPortfolio={setPortfolio} />
-          <ExportCV portfolio={portfolio} />
+          <ImportCV portfolio={investments} setPortfolio={setInvestments} />
+          <ExportCV portfolio={investments} />
         </div>
       </div>
 
