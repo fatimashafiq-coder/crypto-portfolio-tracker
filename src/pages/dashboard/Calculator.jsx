@@ -1,161 +1,179 @@
-import { useState } from "react";
-import "./Calculator.css";
+import React, { useState } from 'react'
+import { Formik, Field, Form } from 'formik';
+import './Calculator.css';
 
-const Calculator = () => {
-  const [result, setResult] = useState(null);
-  const [visible, setVisible] = useState(true);
+const Calculator = ({onClose}) => {
+  const [results, setResults] = useState(null);
 
-  const [form, setForm] = useState({
-    numberOfCoins: "",
-    buyPrice: "",
-    plPercentage: "",
-    targetPrice: "",
-  });
+  const handleSubmit = (values) => {
+    const numberOfCoins = parseFloat(values.numberOfCoins);
+    const buyPrice = parseFloat(values.buyPrice);
+    const plPercentage = values.plPercentage ? parseFloat(values.plPercentage) : null;
+    const targetPrice = values.targetPrice ? parseFloat(values.targetPrice) : null;
 
- const handleChange = (e) => {
-  const { name, value } = e.target;
+    const totalInvested = numberOfCoins * buyPrice;
+    let calculatedTargetPrice, calculatedPercentage, pnlAmount, finalValue;
 
-  setForm((prev) => ({
-    ...prev,
-    [name]: value,
-  }));
-  if (name === "plPercentage" && value !== "") {
-    setIsTargetEnabled(true);
-  } else if (name === "plPercentage" && value === "") {
-    setIsTargetEnabled(false); 
-  }
-};
-
-  const calcResults = () => {
-    const coins = parseFloat(form.numberOfCoins) || 0;
-    const price = parseFloat(form.buyPrice) || 0;
-    const totalInvested = coins * price;
-
-    let finalValue = 0,
-      plAmount = 0,
-      plPercent = 0,
-      target = 0;
-
-    if (form.plPercentage) {
-      plPercent = parseFloat(form.plPercentage) || 0;
-      plAmount = (totalInvested * plPercent) / 100;
-      finalValue = totalInvested + plAmount;
-      target = coins ? finalValue / coins : 0;
-    } else if (form.targetPrice) {
-      target = parseFloat(form.targetPrice) || 0;
-      finalValue = coins * target;
-      plAmount = finalValue - totalInvested;
-      plPercent = totalInvested ? (plAmount / totalInvested) * 100 : 0;
+    if (plPercentage !== null) {
+      calculatedPercentage = plPercentage;
+      pnlAmount = totalInvested * (plPercentage / 100);
+      finalValue = totalInvested + pnlAmount;
+      calculatedTargetPrice = finalValue / numberOfCoins;
+    } else if (targetPrice !== null) {
+      calculatedTargetPrice = targetPrice;
+      finalValue = numberOfCoins * targetPrice;
+      pnlAmount = finalValue - totalInvested;
+      calculatedPercentage = (pnlAmount / totalInvested) * 100;
     }
 
-    setResult({
+    setResults({
       totalInvested: totalInvested.toFixed(2),
-      targetPrice: target.toFixed(2),
-      plPercentage: plPercent.toFixed(2),
-      plAmount: plAmount.toFixed(2),
+      targetPrice: calculatedTargetPrice.toFixed(2),
+      plPercentage: calculatedPercentage.toFixed(2),
+      pnlAmount: pnlAmount.toFixed(2),
       finalValue: finalValue.toFixed(2),
     });
   };
 
-  const InputField = ({ label, name, placeholder }) => (
-    <div className="form-group">
-      <label>{label}</label>
-      <input
-        type="text"
-        name={name}
-        className="field"
-        placeholder={placeholder}
-        value={form[name]}
-        onChange={handleChange}
-      />
-    </div>
-  );
-
-  const ResultCard = ({ label, value, isPositive }) => (
-    <div className="result-card">
-      <p className="result-label">{label}</p>
-      <p
-        className={`result-value ${
-          isPositive === undefined ? "" : isPositive ? "positive" : "negative"
-        }`}
-      >
-        {value}
-      </p>
-    </div>
-  );
-
-  if (!visible) return null;
-
-  const basicInputs = [
-    { label: "Number of Coins", name: "numberOfCoins", placeholder: "5" },
-    { label: "Buy Price (USDT)", name: "buyPrice", placeholder: "45000" },
-  ];
-
-  const calcInputs = [
-    { label: "P&L Percentage (%)", name: "plPercentage", placeholder: "e.g. 30" },
-    { label: "Target Price (USDT)", name: "targetPrice", placeholder: "e.g. 50000" },
-  ];
-
-  const resultsConfig = [
-    { label: "TOTAL INVESTED", value: `$${result?.totalInvested}` },
-    { label: "TARGET PRICE", value: `$${result?.targetPrice}` },
-    {
-      label: "P&L PERCENTAGE",
-      value: `${parseFloat(result?.plPercentage || 0) >= 0 ? "+" : ""}${result?.plPercentage}%`,
-      isPositive: parseFloat(result?.plPercentage || 0) >= 0,
-    },
-    {
-      label: "P&L AMOUNT",
-      value: `${parseFloat(result?.plAmount || 0) >= 0 ? "+" : ""}$${result?.plAmount}`,
-      isPositive: parseFloat(result?.plAmount || 0) >= 0,
-    },
-  ];
-
   return (
-    <div className="modal-container">
-      <div className="modal-header">
-        <h2>P&L Calculator</h2>
-        <span className="close-btn" onClick={() => setVisible(false)}>×</span>
-      </div>
-
-      <div className="divider" />
-
-      <div className="modal-body">
-        <div className="input-row">
-          {basicInputs.map((input) => (
-            <InputField key={input.name} {...input} />
-          ))}
+    <div className="container">
+      <div className="card">
+        <div className="calculator-header">
+          <h1>P&L Calculator</h1>
+          <button 
+            type="button"
+            className="close-btn"  
+            onClick={onClose}
+          >
+            ✕
+          </button>
         </div>
 
-        <div className="calculate-by-section">
-          <h3>Calculate By (Choose One)</h3>
-          <div className="input-row">
-            {calcInputs.map((input) => (
-              <InputField key={input.name} {...input} />
-            ))}
-          </div>
-        </div>
+        <Formik
+          initialValues={{
+            numberOfCoins: "",
+            buyPrice: "",
+            plPercentage: '',
+            targetPrice: '',
+          }}
+          onSubmit={handleSubmit}
+        >
+          {({ values, setFieldValue }) => (
+            <Form>
+              <div className="two-column">
+                <div className="form-group">
+                  <label htmlFor="numberOfCoins">
+                    Number of Coins
+                  </label>
+                  <Field
+                    as="input"
+                    type="number"
+                    name="numberOfCoins"
+                    placeholder="0.5"
+                  />
+                </div>
 
-        <button onClick={calcResults} className="calculate-btn">Calculate</button>
+                <div className="form-group">
+                  <label htmlFor="buyPrice">
+                    Buy Price (USDT)
+                  </label>
+                  <Field
+                    as="input"
+                    type="number"
+                    name="buyPrice"
+                    placeholder="45000"
+                  />
+                </div>
+              </div>
+              <div className="calculate-section">
+                <h3>Calculate By (Choose One)</h3>
 
-        {result && (
-          <div className="results-container">
-            <h3>📊 Calculation Results</h3>
-            <div className="results-grid">
-              {resultsConfig.map((res) => (
-                <ResultCard key={res.label} {...res} />
-              ))}
-            </div>
+                <div className="two-column">
+                  <div className="form-group">
+                    <label htmlFor="plPercentage">
+                      P&L Percentage (%)
+                    </label>
+                    <Field
+                      as="input"
+                      type="number"
+                      name="plPercentage"
+                      placeholder="e.g. 20 or -10"
+                      onChange={(e) => {
+                        setFieldValue('plPercentage', e.target.value);
+                        if (e.target.value) {
+                          setFieldValue('targetPrice', '');
+                        }
+                      }}
+                    />
+                  </div>
 
-            <div className="final-value-card">
-              <p className="result-label">FINAL VALUE</p>
-              <p className="final-value">${result.finalValue}</p>
-            </div>
-          </div>
-        )}
+                  <div className="form-group">
+                    <label htmlFor="targetPrice">
+                      Target Price (USDT)
+                    </label>
+                    <Field
+                      as="input"
+                      type="number"
+                      name="targetPrice"
+                      placeholder="e.g. 50000"
+                      step="0.01"
+                      onChange={(e) => {
+                        setFieldValue('targetPrice', e.target.value);
+                        if (e.target.value) {
+                          setFieldValue('plPercentage', '');
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="submit-btn"
+              >
+                Calculate
+              </button>
+              {results && (
+                <div className="results-section">
+                  <h2>📊 Calculation Results</h2>
+                  
+                  <div className="results-grid">
+                    <div className="result-card">
+                      <div className="result-label">TOTAL INVESTED</div>
+                      <div className="result-value">${results.totalInvested}</div>
+                    </div>
+                    
+                    <div className="result-card">
+                      <div className="result-label">TARGET PRICE</div>
+                      <div className="result-value">${results.targetPrice}</div>
+                    </div>
+                    
+                    <div className="result-card">
+                      <div className="result-label">P&L PERCENTAGE</div>
+                      <div className="result-value" style={{color: parseFloat(results.plPercentage) >= 0 ? '#10b981' : '#ef4444'}}>
+                        {parseFloat(results.plPercentage) >= 0 ? '+' : ''}{results.plPercentage}%
+                      </div>
+                    </div>
+                    
+                    <div className="result-card">
+                      <div className="result-label">P&L AMOUNT</div>
+                      <div className="result-value" style={{color: parseFloat(results.pnlAmount) >= 0 ? '#10b981' : '#ef4444'}}>
+                        {parseFloat(results.pnlAmount) >= 0 ? '+' : ''}${results.pnlAmount}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="result-card result-card-full">
+                    <div className="result-label">FINAL VALUE</div>
+                    <div className="result-value-large">${results.finalValue}</div>
+                  </div>
+                </div>
+              )}
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
-};
-
-export default Calculator;
+}
+export default Calculator

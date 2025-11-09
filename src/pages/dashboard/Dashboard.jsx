@@ -36,7 +36,7 @@ const Dashboard = () => {
 
       {showCalculator && (
         <div className="calculator-overlay">
-          <Calculator />
+          <Calculator onClose={() => setShowCalculator(false)} />
         </div>
       )}
 
