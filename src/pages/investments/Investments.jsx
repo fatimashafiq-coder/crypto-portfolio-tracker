@@ -1,4 +1,4 @@
-import InvestmentCard from "../../components/InvestmentCard";
+import InvestmentCard from "./InvestmentCard";
 import './Investments.css';
 function Investments({ investments, onDelete }) {
   return (

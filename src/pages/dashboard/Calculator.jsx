@@ -12,17 +12,19 @@ const Calculator = () => {
     targetPrice: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+ const handleChange = (e) => {
+  const { name, value } = e.target;
 
-    setForm((prev) => {
-      const updated = { ...prev, [name]: value };
-      if (name === "plPercentage" && value !== "") updated.targetPrice = "";
-      if (name === "targetPrice" && value !== "") updated.plPercentage = "";
-
-      return updated;
-    });
-  };
+  setForm((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+  if (name === "plPercentage" && value !== "") {
+    setIsTargetEnabled(true);
+  } else if (name === "plPercentage" && value === "") {
+    setIsTargetEnabled(false); 
+  }
+};
 
   const calcResults = () => {
     const coins = parseFloat(form.numberOfCoins) || 0;

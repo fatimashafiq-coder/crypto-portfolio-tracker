@@ -1,4 +1,3 @@
-import React from "react";
 import "./PortfolioCards.css";
 
 const PortfolioCards = ({ investments }) => {
