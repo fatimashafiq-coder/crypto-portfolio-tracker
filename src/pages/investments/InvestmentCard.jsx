@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "./InvestmentCard.css";
 
 function InvestmentCard({ investment, onDelete }) {
@@ -8,6 +7,7 @@ function InvestmentCard({ investment, onDelete }) {
     coin,
     quantity,
     buyPrice,
+    currentPrice,
     date,
     time,
     thresholdType,
@@ -15,23 +15,7 @@ function InvestmentCard({ investment, onDelete }) {
     lossThreshold,
   } = investment;
 
-  const [currentPrice, setCurrentPrice] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function fetchPrice() {
-      try {
-        const symbol = coin.toUpperCase();
-        const apiBase = process.env.REACT_APP_BINANCE_API;
-        const response = await fetch(`${apiBase}?symbol=${symbol}USDT`);
-        const data = await response.json();
-        setCurrentPrice(parseFloat(data.price));
-      } catch (error) {
-        console.error("Error fetching price:", error);
-      }
-    }
-    fetchPrice();
-  }, [coin]);
 
   const invested = quantity * buyPrice;
   const currentValue = currentPrice ? quantity * currentPrice : 0;
@@ -51,10 +35,9 @@ function InvestmentCard({ investment, onDelete }) {
         <h3 className="coin-name">{coin}</h3>
         <div className="action-buttons">
           <button className="btn-edit" onClick={handleEdit}>✏️</button>
-          <button className="btn-delete" onClick={onDelete}>🗑️</button> 
+          <button className="btn-delete" onClick={onDelete}>🗑️</button>
         </div>
       </div>
-
       <div className="card-row">
         <span className="label">QUANTITY</span>
         <span className="label">BUY PRICE</span>
@@ -63,7 +46,6 @@ function InvestmentCard({ investment, onDelete }) {
         <span className="value">{quantity}</span>
         <span className="value">${buyPrice}</span>
       </div>
-
       <div className="card-row">
         <span className="label">CURRENT PRICE</span>
         <span className="label">INVESTED</span>
@@ -74,7 +56,6 @@ function InvestmentCard({ investment, onDelete }) {
         </span>
         <span className="value">${invested.toFixed(2)}</span>
       </div>
-
       <div className="card-row">
         <span className="label">CURRENT VALUE</span>
         <span className="label">THRESHOLD</span>
@@ -94,7 +75,6 @@ function InvestmentCard({ investment, onDelete }) {
           {date}, {time}
         </span>
       </div>
-
       <div className="card-row total-row">
         <span>Profit/Loss</span>
         <span>P&L %</span>
