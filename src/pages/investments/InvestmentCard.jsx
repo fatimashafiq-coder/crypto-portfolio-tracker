@@ -19,6 +19,7 @@ function InvestmentCard({ investment, onDelete }) {
 
   const invested = quantity * buyPrice;
   const currentValue = currentPrice ? quantity * currentPrice : 0;
+  console.log(currentPrice);
   const profitLoss = currentValue - invested;
   const profitLossPercent = invested
     ? ((profitLoss / invested) * 100).toFixed(2)
