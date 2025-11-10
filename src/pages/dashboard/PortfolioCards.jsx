@@ -1,19 +1,15 @@
 import "./PortfolioCards.css";
 
 const PortfolioCards = ({ investments }) => {
-  if (!investments || investments.length === 0) {
-    return <p className="no-data">No investments yet.</p>;
-  }
-
-  const totalInvested = investments.reduce(
+  const totalInvested = investments?.reduce(
     (acc, inv) => acc + inv.quantity * inv.buyPrice,
     0
-  );
+  ) || 0;
 
-  const totalCurrentValue = investments.reduce(
+  const totalCurrentValue = investments?.reduce(
     (acc, inv) => acc + (inv.currentPrice ? inv.quantity * inv.currentPrice : 0),
     0
-  );
+  ) || 0;
 
   const totalPL = totalCurrentValue - totalInvested;
   const totalPLPercent = totalInvested
@@ -44,7 +40,7 @@ const PortfolioCards = ({ investments }) => {
       <div className="portfolio-card">
         <h3>P&L Percentage</h3>
         <p className={isProfit ? "profit" : "loss"}>
-          {isProfit ? "+" : "-"}
+          {isProfit ? "+" : ""}
           {Math.abs(totalPLPercent)}%
         </p>
       </div>
