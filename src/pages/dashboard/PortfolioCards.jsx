@@ -1,6 +1,7 @@
 import "./PortfolioCards.css";
-
-const PortfolioCards = ({ investments }) => {
+import { useInvestments } from "../../context/InvestmentContext";
+const PortfolioCards = () => {
+    const { investments } = useInvestments();
   const totalInvested = investments?.reduce(
     (acc, inv) => acc + inv.quantity * inv.buyPrice,
     0

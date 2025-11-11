@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./InvestmentCard.css";
+import { useInvestments } from "../../context/InvestmentContext"; 
 
 function InvestmentCard({ investment, onDelete }) {
   const {
@@ -16,6 +17,7 @@ function InvestmentCard({ investment, onDelete }) {
   } = investment;
 
   const navigate = useNavigate();
+   const { deleteInvestment } = useInvestments();
 
   const invested = quantity * buyPrice;
   const currentValue = currentPrice ? quantity * currentPrice : 0;
@@ -29,6 +31,9 @@ function InvestmentCard({ investment, onDelete }) {
   const handleEdit = () => {
     navigate(`/investments/${id}/edit`);
   };
+    const handleDelete = () => {
+    deleteInvestment(id); 
+  };
 
   return (
     <div className="investment-card">
@@ -36,7 +41,7 @@ function InvestmentCard({ investment, onDelete }) {
         <h3 className="coin-name">{coin}</h3>
         <div className="action-buttons">
           <button className="btn-edit" onClick={handleEdit}>✏️</button>
-          <button className="btn-delete" onClick={onDelete}>🗑️</button>
+          <button className="btn-delete" onClick={handleDelete}>🗑️</button>
         </div>
       </div>
       <div className="card-row">

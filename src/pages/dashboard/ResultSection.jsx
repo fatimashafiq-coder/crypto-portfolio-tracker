@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ResultsSection = ({ results }) => {
-  if (!results) return null; // don't render if no results yet
+  if (!results) return null; 
 
   const isProfit = parseFloat(results.plPercentage) >= 0;
   const isAmountPositive = parseFloat(results.pnlAmount) >= 0;

@@ -3,9 +3,11 @@ import InvestmentForm from "./InvestmentForm";
 import ThresholdForm from "./ThresholdForm";
 import { coinOptions } from "../../constants/coinOptions";
 import { useNavigate } from "react-router-dom";
+import { useInvestments } from "../../context/InvestmentContext"; 
 
-function CreateInvestment({ onAddInvestment }) {
+function CreateInvestment() {
     const navigate = useNavigate();
+     const { addInvestment } = useInvestments();
   const initialValues = {
     coin: "",
     quantity: "",
@@ -23,7 +25,7 @@ function CreateInvestment({ onAddInvestment }) {
       return;
     }
 
-    onAddInvestment(values); 
+      addInvestment(values);
     resetForm();
       navigate("/investments");
   };

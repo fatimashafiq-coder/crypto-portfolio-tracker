@@ -3,10 +3,12 @@ import { Formik, Form } from "formik";
 import InvestmentForm from "../createInvestment/InvestmentForm";
 import ThresholdForm from "../createInvestment/ThresholdForm";
 import { coinOptions } from "../../constants/coinOptions";
+import { useInvestments } from "../../context/InvestmentContext";
 
-function EditInvestment({ investments, onUpdateInvestment }) {
+function EditInvestment() {
   const { id } = useParams();
   const navigate = useNavigate();
+ const { investments, updateInvestment } = useInvestments();
 
   const investmentToEdit = investments.find((inv) => inv.id === id);
 
@@ -16,7 +18,7 @@ function EditInvestment({ investments, onUpdateInvestment }) {
 
   const handleSubmit = (values) => {
     const updatedInvestment = { ...investmentToEdit, ...values };
-    onUpdateInvestment(updatedInvestment);
+    updateInvestment(updatedInvestment);
     navigate("/investments");
   };
 

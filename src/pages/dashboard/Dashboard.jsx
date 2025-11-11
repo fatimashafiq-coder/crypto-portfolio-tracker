@@ -3,23 +3,22 @@ import { useNavigate } from "react-router-dom";
 import CreateInvestment from "../createInvestment/CreateInvestment";
 import PortfolioCards from "./PortfolioCards";
 import Calculator from "./Calculator";
-import UseLocalStorage from "../../Hooks/UseLocalStorage";
 import ImportCV from "./ImportCv";
 import ExportCV from "./ExportCv";
 import "./Dashboard.css";
+import { useInvestments } from "../../context/InvestmentContext"; 
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [showCreate, setShowCreate] = useState(false);
   const [showCalculator, setShowCalculator] = useState(false);
-  const [investments, setInvestments] = UseLocalStorage("investments", []);
-
+  const [showCreate, setShowCreate] = useState(false);
+  const { investments } = useInvestments();
   return (
     <>
       <div className="portfolio-header">
         <h2>Your Portfolio</h2>
         <div className="actions">
-           <button className="button" onClick={() => navigate("/investment/create")}>
+          <button className="button" onClick={() => navigate("/investment/create")}>
             Create
           </button>
           <button
@@ -28,10 +27,11 @@ const Dashboard = () => {
           >
             Calculator
           </button>
-          <ImportCV portfolio={investments} setPortfolio={setInvestments} />
+          <ImportCV portfolio={investments} />
           <ExportCV portfolio={investments} />
         </div>
       </div>
+
       {showCalculator && (
         <div className="calculator-overlay">
           <Calculator onClose={() => setShowCalculator(false)} />
