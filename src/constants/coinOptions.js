@@ -26,3 +26,4 @@ export const coinOptions = [
     { value: "OP", label: "OP - Optimism" },
     { value: "ASTER", label: "ASTER - Aster" },
   ];
+  

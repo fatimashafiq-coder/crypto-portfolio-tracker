@@ -32,7 +32,7 @@ function InvestmentForm({ coinOptions }) {
   }, [setFieldValue]);
 
   return (
-    <div className="investment-form-container">
+    <div className="p-[30px]">
       <h2 className="form-title">Add New Investment</h2>
 
       <div className="investment-form">

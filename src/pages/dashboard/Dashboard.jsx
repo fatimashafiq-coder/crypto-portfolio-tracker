@@ -32,8 +32,6 @@ const Dashboard = () => {
           <ExportCV portfolio={investments} />
         </div>
       </div>
-
-
       {showCalculator && (
         <div className="calculator-overlay">
           <Calculator onClose={() => setShowCalculator(false)} />
