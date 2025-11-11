@@ -8,6 +8,7 @@ import EditInvestment from './pages/editInvestment/EditInvestment';
 import CreateInvestment from './pages/createInvestment/CreateInvestment';
 import Header from './components/Header';
 import { v4 as uuidv4 } from "uuid";
+import { fetchCoinPrice } from './helpers/fetchCoinPrice';
 import UseLocalStorage from "./Hooks/UseLocalStorage";
 
 function App() {
@@ -15,31 +16,19 @@ function App() {
 useEffect(() => {
   if (!investments.length) return;
   const fetchAllPrices = async () => {
-    try {
-      const updated = await Promise.all(
-        investments.map(async (inv) => {
-          const url = `${import.meta.env.VITE_BINANCE_API}?symbol=${inv.coin.toUpperCase()}USDT`;
-          console.log("Fetching URL:", url);
-          
-          const res = await fetch(url);
-          if (!res.ok) {
-            console.error(`Failed for ${inv.coin}:`, res.status);
-            return { ...inv, currentPrice: 0 };
-          }
-          
-          const data = await res.json();
-          console.log(`${inv.coin} response:`, data);
-          
-          return { ...inv, currentPrice: parseFloat(data.price) || 0 };
-        })
-      );
-      
-      setInvestments(updated);
-    } catch (error) {
-      console.error("Error fetching prices:", error);
-    }
-  };
+  try {
+    const updated = await Promise.all(
+      investments.map(async (inv) => {
+        const price = await fetchCoinPrice(inv.coin);
+        return { ...inv, currentPrice: price };
+      })
+    );
 
+    setInvestments(updated);
+  } catch (error) {
+    console.error("Error fetching prices:", error);
+  }
+};
   fetchAllPrices();
 }, [investments.length]);
 

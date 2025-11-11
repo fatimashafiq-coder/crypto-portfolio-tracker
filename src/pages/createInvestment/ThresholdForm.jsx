@@ -5,7 +5,6 @@ const ThresholdForm = ({ values, handleChange }) => {
   return (
     <div className="threshold-container">
       <h2 className="threshold-title">Set Sell Threshold (Optional)</h2>
-
       <div className="radio-group">
         <label>
           <input

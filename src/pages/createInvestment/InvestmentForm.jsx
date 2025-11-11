@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Field, useFormikContext } from "formik";
 import Select from "react-select";
 import "./InvestmentForm.css";
+
 const FormField = ({ label, name, type = "text", placeholder }) => (
   <div className="form-group">
     <label>{label}</label>
@@ -30,9 +31,15 @@ function InvestmentForm({ coinOptions }) {
     setFieldValue("date", date);
     setFieldValue("time", time);
   }, [setFieldValue]);
+  const fieldConfigs = [
+    { label: "Quantity", name: "quantity", type: "number", placeholder: "0.5" },
+    { label: "Buy Price (USDT)", name: "buyPrice", type: "number", placeholder: "45000" },
+    { label: "Purchase Date", name: "date", type: "date" },
+    { label: "Purchase Time", name: "time", type: "time" },
+  ];
 
   return (
-    <div className="investment-form-container">
+    <div className="p-[30px]">
       <h2 className="form-title">Add New Investment</h2>
 
       <div className="investment-form">
@@ -50,11 +57,9 @@ function InvestmentForm({ coinOptions }) {
             )}
           />
         </div>
-
-        <FormField label="Quantity" name="quantity" type="number" placeholder="0.5" />
-        <FormField label="Buy Price (USDT)" name="buyPrice" type="number" placeholder="45000" />
-        <FormField label="Purchase Date" name="date" type="date" />
-        <FormField label="Purchase Time" name="time" type="time" />
+        {fieldConfigs.map((field) => (
+          <FormField key={field.name} {...field} />
+        ))}
       </div>
     </div>
   );
