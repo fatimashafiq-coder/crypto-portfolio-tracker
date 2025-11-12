@@ -54,7 +54,7 @@ export const InvestmentProvider = ({ children }) => {
         updateInvestment: handleUpdateInvestment,
       }}
     >
-      {children}
+    {children}
     </InvestmentContext.Provider>
   );
 };
