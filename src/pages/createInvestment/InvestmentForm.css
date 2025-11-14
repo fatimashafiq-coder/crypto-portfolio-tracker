@@ -1,6 +1,12 @@
 .investment-form-container {
     padding: 30px;
 }
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
 .form-title {
     color: #667eea;
     margin-bottom: 20px;

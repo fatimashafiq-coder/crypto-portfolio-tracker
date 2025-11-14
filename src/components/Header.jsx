@@ -1,13 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
-  const data = {
-    icon: "",
-    title: "Crypto Portfolio Tracker",
-    subtitle: "Track your cryptocurrency investments with live Binance prices"
-  };
-
+const Header = ({data}) => {
   return (
     <>
       <nav className="text-end p-4">

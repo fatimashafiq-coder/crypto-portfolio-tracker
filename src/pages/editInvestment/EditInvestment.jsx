@@ -9,7 +9,7 @@ function EditInvestment() {
   const { id } = useParams();
   const navigate = useNavigate();
  const { investments, updateInvestment } = useInvestments();
-
+ 
   const investmentToEdit = investments.find((inv) => inv.id === id);
 
   if (!investmentToEdit) {

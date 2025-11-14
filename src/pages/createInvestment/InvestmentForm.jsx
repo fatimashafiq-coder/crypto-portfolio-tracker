@@ -1,22 +1,28 @@
 import { useEffect } from "react";
-import { Field, useFormikContext } from "formik";
+import { Field, useFormikContext, ErrorMessage } from "formik";
 import Select from "react-select";
 import "./InvestmentForm.css";
 
-const FormField = ({ label, name, type = "text", placeholder }) => (
-  <div className="form-group">
-    <label>{label}</label>
-    <Field
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      className="input-field"
-    />
-  </div>
-);
+const FormField = ({ label, name, type = "text", placeholder }) => {
+  const { errors, touched } = useFormikContext();
+  return (
+    <div className="form-group">
+      <label>{label}</label>
+      <Field
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        className="input-field"
+      />
+      {errors[name] && touched[name] && (
+        <div className="error-message">{errors[name]}</div>
+      )}
+    </div>
+  );
+};
 
 function InvestmentForm({ coinOptions }) {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, errors, touched } = useFormikContext();
 
   useEffect(() => {
     const getCurrentDateTime = () => {
@@ -26,11 +32,11 @@ function InvestmentForm({ coinOptions }) {
         time: now.toTimeString().slice(0, 5),
       };
     };
-
     const { date, time } = getCurrentDateTime();
     setFieldValue("date", date);
     setFieldValue("time", time);
   }, [setFieldValue]);
+
   const fieldConfigs = [
     { label: "Quantity", name: "quantity", type: "number", placeholder: "0.5" },
     { label: "Buy Price (USDT)", name: "buyPrice", type: "number", placeholder: "45000" },
@@ -56,7 +62,11 @@ function InvestmentForm({ coinOptions }) {
               />
             )}
           />
+          {errors.coin && touched.coin && (
+            <div className="error-message">{errors.coin}</div>
+          )}
         </div>
+
         {fieldConfigs.map((field) => (
           <FormField key={field.name} {...field} />
         ))}

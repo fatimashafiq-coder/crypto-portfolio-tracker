@@ -3,7 +3,6 @@ import "./ThresholdForm.css";
 
 const ThresholdForm = ({ values }) => {
   const isDisabled = values.thresholdType === "noThreshold";
-
   return (
     <div className="p-5 mt-5">
       <h2 className="text-[#667eea] mt-4 font-semibold text-xl">

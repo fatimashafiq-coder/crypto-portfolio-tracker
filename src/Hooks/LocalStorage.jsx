@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-function UseLocalStorage(key, initialValue) {
+function LocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
     try {
       const saved = localStorage.getItem(key);
@@ -20,4 +20,4 @@ function UseLocalStorage(key, initialValue) {
   return [value, setValue];
 }
 
-export default UseLocalStorage;
+export default LocalStorage;
