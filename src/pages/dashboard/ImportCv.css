@@ -1,0 +1,16 @@
+.import-btn input {
+    display: none;
+}
+
+.import-btn {
+   margin-bottom: -17px;
+    display: inline-block;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+    color: white;
+    border-radius: 8px;
+     font-size: 1.1em;
+    font-weight: 600;
+    transition: transform 0.2s;
+    padding: 16px 27px;
+}
